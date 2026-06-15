@@ -1,0 +1,27 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+
+# --- Local config & secrets (NEVER commit real values) ---
+config.yaml
+*.env
+.rtmde_tg.env
+.poly_tg.env
+
+# --- Runtime state & logs (machine-local data) ---
+state/
+*.jsonl
+mm_measure_*.json*
+mm_probe_log.json
+*.out
+*.log
+
+# --- OS noise ---
+.DS_Store

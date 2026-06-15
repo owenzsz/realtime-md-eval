@@ -1,0 +1,19 @@
+[Unit]
+Description=rtmde market-data + strategy-eval collector
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=<VM_USER>
+WorkingDirectory=/home/<VM_USER>/realtime-md-eval
+Environment=PYTHONUNBUFFERED=1
+# 1-day sessions (8640 x 10s). Restart=always makes each new day prune resolved
+# markets, top back up to --markets, and keep accumulating state — and it resumes
+# automatically after a crash or reboot (the cheap self-healing this project relies on).
+ExecStart=/usr/bin/python3 -m rtmde.eval.harness --loops 8640 --interval 10 --markets 6
+Restart=always
+RestartSec=15
+
+[Install]
+WantedBy=multi-user.target

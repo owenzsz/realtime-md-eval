@@ -1,0 +1,43 @@
+# rtmde configuration template.
+# Copy to config.yaml (gitignored) and edit. NEVER put real secrets in this file —
+# credentials are read from environment variables, referenced by NAME only below.
+
+feed:
+  ws_endpoint: "wss://ws-subscriptions-clob.polymarket.com/ws/market"
+  rest_clob:   "https://clob.polymarket.com"
+  rest_gamma:  "https://gamma-api.polymarket.com"
+  inactivity_timeout_s: 120          # force a reconnect after this much WS silence
+
+strategy:                            # the market-making strategy being EVALUATED
+  quote_size: 200                    # shares quoted per side (keep >= reward min size)
+  half_spread_ticks: 2               # quote this many ticks from mid on each side
+  max_inventory: 800                 # hard cap on |net position| (shares)
+  skew_strength: 1.0                 # how hard to lean quotes against inventory (0 = off)
+  kill_move: 0.04                    # mid jump between loops that pulls quotes (kill-switch)
+  interval_s: 5
+  loops: 40
+
+eval:
+  markets: 6                         # how many markets the harness tracks concurrently
+  state_dir: "./state"               # gitignored; holds state.json / samples.jsonl / probe.json
+
+notify:
+  backend: "stdout"                  # "stdout" | "telegram"
+  telegram_env_file: "~/.rtmde_tg.env"
+  # For the telegram backend, provide creds via env (or the chmod-600 file above):
+  #   TG_BOT_TOKEN=...     (from @BotFather)
+  #   TG_CHAT_ID=...       (your chat id; `python -m rtmde.notify.digest --getchat`)
+
+# --- Live order placement (OPTIONAL, off by default) ---
+# When enabled, the LiveBroker reads wallet creds from env vars ONLY — never commit keys:
+#   POLY_PK       private key of the wallet controlling your Polymarket account
+#   POLY_FUNDER   your Polymarket proxy (funder) address
+live:
+  enabled: false
+
+# --- Deployment placeholders (consumed by deploy/remote.sh via RTMDE_* env vars) ---
+deploy:
+  gcp_project: "<GCP_PROJECT>"
+  gcp_zone:    "<GCP_ZONE>"
+  vm_name:     "<VM_NAME>"
+  vm_user:     "<VM_USER>"

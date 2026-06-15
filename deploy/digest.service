@@ -1,0 +1,11 @@
+[Unit]
+Description=rtmde daily evaluation digest
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=<VM_USER>
+WorkingDirectory=/home/<VM_USER>/realtime-md-eval
+# Drop --telegram to print to the journal instead of pushing to Telegram.
+ExecStart=/usr/bin/python3 -m rtmde.notify.digest --report --telegram
