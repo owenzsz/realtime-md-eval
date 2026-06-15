@@ -1,5 +1,7 @@
 # realtime-md-eval
 
+[![CI](https://github.com/owenzsz/realtime-md-eval/actions/workflows/ci.yml/badge.svg)](https://github.com/owenzsz/realtime-md-eval/actions/workflows/ci.yml)
+
 **A real-time market-data ingestion + offline strategy-evaluation system**, built on
 Polymarket's CLOB as a live data source. It ingests order books over WebSocket at
 ~90 ms latency, runs 7×24 on a free-tier VM for ~$0/month, and evaluates a market-making
